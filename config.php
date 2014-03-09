@@ -1,8 +1,10 @@
 <?php
 
 return [
-  'exchange' => '',
-  'queue' => 'hello',
+  'exchange' => 'message',
+  'type' => 'topic',
+  'queue' => 'log',
+  'consumer-tag' => 'midwest-consumer',
   'mq' => [
     'host' => 'localhost',
     'port' => 5672,
