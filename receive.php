@@ -11,7 +11,7 @@ $channel = $connection->channel();
 $routingKey = $argv[2];
 $queueName = $argv[1];
 
-$queue = $channel->queue_declare($queueName, false, false, false, true);
+$queue = $channel->queue_declare($queueName, false, false, false, false);
 
 $channel->queue_bind($queueName, $config['exchange'], $routingKey);
 
