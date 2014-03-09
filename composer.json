@@ -1,0 +1,15 @@
+{
+  "name": "jasonlotito/carrot",
+  "description": "Carrot is a chat program for RabbitMQ",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jason Lotito",
+      "email": "jasonlotito@gmail.com"
+    }
+  ],
+  "require": {
+    "videlalvaro/php-amqplib": "2.2.*"
+  }
+}
