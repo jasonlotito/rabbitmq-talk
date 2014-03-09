@@ -8,12 +8,12 @@ use PhpAmqpLib\Message\AMQPMessage;
 // Message Prep
 $connection = new AMQPConnection($config['mq']['host'], $config['mq']['port'], $config['mq']['user'], $config['mq']['pass']);
 $channel = $connection->channel();
-$channel->exchange_declare($config['exchange'], 'fanout', false, false, false);
+$channel->exchange_declare($config['exchange'], 'direct', false, false, false);
 $message = join(' ', array_splice($argv, 1));
 $message = empty($message) ? 'Hello world!' : $message;
 
 // Publish Message
-$channel->basic_publish(new AMQPMessage( $message ), $config['exchange']);
+$channel->basic_publish(new AMQPMessage( $message ), $config['exchange'], 'message.new');
 echo " [x] Sent '$message'\n";
 $channel->close();
 $connection->close();
