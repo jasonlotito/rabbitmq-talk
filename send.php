@@ -6,9 +6,12 @@ use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 // Message Prep
-$connection = new AMQPConnection($config['mq']['host'], $config['mq']['port'], $config['mq']['user'], $config['mq']['pass']);
+$connection = new AMQPConnection($config['mq']['host'],
+  $config['mq']['port'],
+  $config['mq']['user'],
+  $config['mq']['pass']);
+
 $channel = $connection->channel();
-$channel->queue_declare($config["queue"], false, false, false, true);
 $message = join(' ', array_splice($argv, 1));
 $message = empty($message) ? 'Hello world!' : $message;
 
