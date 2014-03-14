@@ -1,22 +1,42 @@
 <?php
 // Setup, $ php send.php whatever you want to send
 require_once 'vendor/autoload.php';
+
+use Carrot\Publisher;
+
 $config = require('config.php');
-use PhpAmqpLib\Connection\AMQPConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 
-// Message Prep
-$connection = new AMQPConnection($config['mq']['host'],
-  $config['mq']['port'],
-  $config['mq']['user'],
-  $config['mq']['pass']);
+if (!empty($_POST['comment'])) {
+  $publisher = new Publisher('messages');
+  $sendCount = (int) (isset($_POST['simulatedMessageCount']) ? $_POST['simulatedMessageCount'] : 1);
 
-$channel = $connection->channel();
-$message = join(' ', array_splice($argv, 1));
-$message = empty($message) ? 'Hello world!' : $message;
+  $start = microtime(true);
+  for($x = 0; $x<$sendCount; $x++){
+    if(isset($_POST['simulateWork'])) {
+      $publisher->eventuallyPublish('message.new', ['comment' => $_POST['comment'] . " $x"]);
+    } else {
+      $publisher->publish('message.new', ['comment' => $_POST['comment'] . " $x"]);
+    }
+  }
 
-// Publish Message
-$channel->basic_publish(new AMQPMessage( $message ), '', 'hello');
-echo " [x] Sent '$message'\n";
-$channel->close();
-$connection->close();
+  $time = microtime(true) - $start;
+
+  header("Location: send.php?s=1&t=$time");
+  die();
+}
+
+if(isset($_GET['s']) && $_GET['s'] == 1){
+  echo "<h2>Message sent in {$_GET['t']}.</h2>";
+}
+
+?>
+
+<h1>Simple MQ Publisher</h1>
+
+<form method="post">
+  <label>Message Text to Send: <input name="comment" placeholder="type a message to send" type="text" value="This is text <?=time()?>"></label><br>
+  <label>Simulated Message Count: <input type="number" name="simulatedMessageCount" value="1"></label><br>
+  <label><input type="checkbox" name="simulateWork" value="1"/> Eventually Publish</label><br>
+  <hr/>
+  <button type="submit">Send Message</button>
+</form>

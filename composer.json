@@ -3,6 +3,11 @@
   "description": "Carrot is a chat program for RabbitMQ",
   "minimum-stability": "dev",
   "license": "MIT",
+  "autoload": {
+    "psr-0": {
+      "Carrot": "lib/"
+    }
+  },
   "authors": [
     {
       "name": "Jason Lotito",

@@ -1,6 +1,7 @@
 <?php
 
 return [
+  'consumer-tag' => '',
   'exchange' => '',
   'queue' => 'hello',
   'mq' => [
