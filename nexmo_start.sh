@@ -1,0 +1,7 @@
+#!/bin/sh
+
+KEY=5eec4e21
+SECRET=5034a71b
+PHONE=12152371280
+
+php nexmo.php $KEY $SECRET $PHONE

@@ -13,7 +13,9 @@ if (!empty($_POST['comment'])) {
   $start = microtime(true);
   for($x = 0; $x<$sendCount; $x++){
     if(isset($_POST['simulateWork'])) {
-      $publisher->eventuallyPublish('message.new', ['comment' => $_POST['comment'] . " $x"]);
+      usleep(500000);
+      $msg = ['comment' => $_POST['comment'] . " $x"];
+      $publisher->eventuallyPublish('message.new', $msg);
     } else {
       $publisher->publish('message.new', ['comment' => $_POST['comment'] . " $x"]);
     }
